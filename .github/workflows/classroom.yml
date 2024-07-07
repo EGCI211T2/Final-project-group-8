@@ -1,0 +1,117 @@
+name: Autograding Tests
+'on':
+- workflow_dispatch
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Bubble2
+      id: bubble2
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Bubble2
+        setup-command: g++ main.cpp -o sort
+        command: "./sort bubble  6 5 2 3"
+        input: ''
+        expected-output: 5 2 3 6
+        comparison-method: contains
+        timeout: 10
+    - name: Select1
+      id: select1
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Select1
+        setup-command: g++ main.cpp -o sort
+        command: "./sort selection 1 6 5 2 3"
+        input: ''
+        expected-output: 1 2 5 6 3
+        comparison-method: contains
+        timeout: 10
+    - name: Select2
+      id: select2
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Select2
+        setup-command: g++ main.cpp -o sort
+        command: "./sort selection 1 6 5 2 3"
+        input: ''
+        expected-output: 1 2 3 6 5
+        comparison-method: contains
+        timeout: 10
+    - name: select3
+      id: select3
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: select3
+        setup-command: g++ main.cpp -o sort
+        command: "./sort selection 1 6 5 2 3"
+        input: ''
+        expected-output: 1 2 3 5 6
+        comparison-method: contains
+        timeout: 10
+    - name: insert1
+      id: insert1
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: insert1
+        setup-command: g++ main.cpp -o sort
+        command: "./sort insertion 1 6 5 2 3"
+        input: ''
+        expected-output: 1 2 6 5 3
+        comparison-method: contains
+        timeout: 10
+    - name: insert2
+      id: insert2
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: insert2
+        setup-command: ''
+        command: "./sort insertion 1 6 5 2 3"
+        input: ''
+        expected-output: 1 2 3 6 5
+        comparison-method: contains
+        timeout: 10
+        max-score: 12
+    - name: insert3
+      id: insert3
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: insert3
+        setup-command: g++ main.cpp -o sort
+        command: "./sort insertion 1 6 5 2 3"
+        input: ''
+        expected-output: '1 2 3 5 6 '
+        comparison-method: contains
+        timeout: 10
+    - name: bubble1
+      id: bubble1
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: bubble1
+        setup-command: g++ main.cpp -o sort
+        command: "./sort bubble  6 5 2 3"
+        input: ''
+        expected-output: 5 2 3 6
+        comparison-method: contains
+        timeout: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        BUBBLE2_RESULTS: "${{steps.bubble2.outputs.result}}"
+        SELECT1_RESULTS: "${{steps.select1.outputs.result}}"
+        SELECT2_RESULTS: "${{steps.select2.outputs.result}}"
+        SELECT3_RESULTS: "${{steps.select3.outputs.result}}"
+        INSERT1_RESULTS: "${{steps.insert1.outputs.result}}"
+        INSERT2_RESULTS: "${{steps.insert2.outputs.result}}"
+        INSERT3_RESULTS: "${{steps.insert3.outputs.result}}"
+        BUBBLE1_RESULTS: "${{steps.bubble1.outputs.result}}"
+      with:
+        runners: bubble2,select1,select2,select3,insert1,insert2,insert3,bubble1
