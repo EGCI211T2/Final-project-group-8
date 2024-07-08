@@ -1,25 +1,60 @@
-//
-//  main.cpp
-//  First arg
-//
-//  Created by Mingmanas Sivaraksa on 2/1/2567 BE.
-//
-
 #include <iostream>
-using namespace std;
-#include <iomanip>
-#include "sorting.h"
+#include <cstdlib> // for rand() and srand()
+#include <ctime>   // for time()
 
-int main(int argc, char * argv[]) {
-    int i,N=argc-1;
-    int *a=new int[N];
-    for(i=1;i<argc;i++){
-        
-        a[i-1]=atoi(argv[i]);
-    
-         
+#include "queue.h"
+#include "stack.h"
+
+using namespace std;
+
+void classifyWaste(Queue& wasteQueue, Stack& binStack) {
+    string wasteTypes[] = {"Plastic", "Paper", "Glass", "Metal", "Organic"};
+
+    // Randomly enqueue wastes
+    for (int i = 0; i < 5; ++i) {
+        int randomIndex = rand() % 5;
+        wasteQueue.enqueue(wasteTypes[randomIndex]);
     }
-    bubbleSort(a,N);
-    delete []a;
+
+    
+    cout << "Wastes: ";
+    wasteQueue.display();
+
+    // Match wastes to correct bin types using stack
+    while (!wasteQueue.isEmpty()) {
+        string waste = wasteQueue.dequeue();
+        cout << "Matching " << waste << " waste... ";
+
+        if (waste == "Plastic" || waste == "Paper" ) {
+            binStack.push("General Waste Bin");
+            cout << "Matched to General Waste Bin" << endl;
+        } 
+        else if (waste == "Glass" || waste == "Metal" ){
+            binStack.push("Hazardous Waste Bin");
+            cout << "Matched to Hazardous Waste Bin" << endl;
+        }
+         else if (waste == "Organic"){
+            binStack.push("Wet Waste Bin");
+            cout << "Matched to Wet Waste Bin" << endl;
+        }
+        else {
+            cout << "Unrecognized waste type!" << endl;
+        }
+    }
+
+    // cout << endl << "Bins matched: " << endl;
+    // while (!binStack.isEmpty()) {
+    //     cout << binStack.pop() << endl;
+    // }
+}
+
+int main() {
+    srand(time(0)); // seed for random number generation
+
+    Queue wasteQueue;
+    Stack binStack(5); // Assuming there are 5 types of bins
+
+    classifyWaste(wasteQueue, binStack);
+
     return 0;
 }
