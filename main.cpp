@@ -7,47 +7,54 @@
 
 using namespace std;
 
-void classifyWaste(Queue& wasteQueue, Stack& binStack) {
+void classifyWaste(Queue& wasteQueue, Stack& binStack)
+ {
+    string choice;
     string wasteTypes[] = {"Plastic", "Paper", "Glass", "Metal", "Organic"};
-
-    // Randomly enqueue wastes
-    for (int i = 0; i < 5; ++i) {
-        int randomIndex = rand() % 5;
-        wasteQueue.enqueue(wasteTypes[randomIndex]);
+    cout<<"Input Waste:(Plastic, Paper, Glass, Metal, Organic):";
+    cin>>choice;
+   
+     
+      bool matched = false;
+    for (const string& waste : wasteTypes) {
+        if (waste == choice) {
+            wasteQueue.enqueue(waste);
+            matched = true;
+            break;
+        }
     }
 
-    
+    if (!matched) {
+        cout << "Unrecognized waste type!" << endl;
+        return;
+    }
+
     cout << "Wastes: ";
     wasteQueue.display();
 
-    // Match wastes to correct bin types using stack
-    while (!wasteQueue.isEmpty()) {
-        string waste = wasteQueue.dequeue();
-        cout << "Matching " << waste << " waste... ";
 
-        if (waste == "Plastic" || waste == "Paper" ) {
+    while(!wasteQueue.isEmpty()) {
+    string waste = wasteQueue.dequeue();
+    cout << "Matching " << waste << " waste... ";
+
+        if (waste == "Plastic" || waste == "Paper") {
             binStack.push("General Waste Bin");
             cout << "Matched to General Waste Bin" << endl;
-        } 
-        else if (waste == "Glass" || waste == "Metal" ){
+        } else if (waste == "Glass" || waste == "Metal") {
             binStack.push("Hazardous Waste Bin");
             cout << "Matched to Hazardous Waste Bin" << endl;
-        }
-         else if (waste == "Organic"){
+        } else if (waste == "Organic") {
             binStack.push("Wet Waste Bin");
             cout << "Matched to Wet Waste Bin" << endl;
-        }
-        else {
+        } else {
             cout << "Unrecognized waste type!" << endl;
         }
     }
-
-    // cout << endl << "Bins matched: " << endl;
-    // while (!binStack.isEmpty()) {
-    //     cout << binStack.pop() << endl;
-    // }
-}
-
+cout << endl << "Bins matched: " << endl;
+    while (!binStack.isEmpty()) {
+        cout << binStack.pop() << endl;      
+ }
+    }
 int main() {
     srand(time(0)); // seed for random number generation
 
