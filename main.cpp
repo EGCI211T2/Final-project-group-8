@@ -40,8 +40,8 @@ void classifyWaste(Queue& wasteQueue, Stack& binStack)
     std::cout << "\n\n\n";
 	std::cout << "(a). General Waste Bin\n";
 	std::cout << "(b). Hazardous Waste Bin\n";
-	std::cout << "(c). Wet Waster Bin\n";
-	std::cout << "(d). Non of the above\n";
+	std::cout << "(c). Wet Waste Bin\n";
+	std::cout << "(d). None of the above\n";
     cout << i << ". "<< waste << ": ";
 	cin >> choice;
 
