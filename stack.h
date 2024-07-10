@@ -15,6 +15,7 @@ public:
     ~Stack();
     bool isEmpty();
     bool isFull();
+    int  size();
     void push(string data);
     string pop();
 };
@@ -22,6 +23,11 @@ public:
 
 Stack::Stack(int size) : top(-1), maxSize(size) {
     items = new string[size];
+}
+
+int Stack::size()
+{
+	return maxSize;
 }
 
 Stack::~Stack() {

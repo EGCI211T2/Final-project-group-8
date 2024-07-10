@@ -57,7 +57,7 @@ string Queue::dequeue() {
 void Queue::display() {
     Node* temp = front;
     while (temp != nullptr) {
-        cout << temp->data << " ";
+        cout << temp->data << "\n";
         temp = temp->next;
     }
     cout << endl;
